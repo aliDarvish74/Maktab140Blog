@@ -2,6 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Presentation", "MaktabBlog.Presentation\MaktabBlog.Presentation.csproj", "{ADD41C23-359A-492D-914F-9ED400CD77CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E693EEF9-E255-4D33-A816-924E2FCA2863}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{4625F25F-9FAA-4733-8B69-02A74E84462F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Domain", "MaktabBlog.Domain\MaktabBlog.Domain.csproj", "{B4CF024A-E464-4A7E-A666-AD09B2962BFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{8F479D1C-2EE9-4E6C-A7C6-BD89B7657D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Persistence", "MaktabBlog.Persistence\MaktabBlog.Persistence.csproj", "{722FD18A-3628-4F72-BC9F-0F7466A9F624}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +22,18 @@ Global
 		{ADD41C23-359A-492D-914F-9ED400CD77CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADD41C23-359A-492D-914F-9ED400CD77CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADD41C23-359A-492D-914F-9ED400CD77CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4CF024A-E464-4A7E-A666-AD09B2962BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4CF024A-E464-4A7E-A666-AD09B2962BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4CF024A-E464-4A7E-A666-AD09B2962BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4CF024A-E464-4A7E-A666-AD09B2962BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722FD18A-3628-4F72-BC9F-0F7466A9F624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722FD18A-3628-4F72-BC9F-0F7466A9F624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722FD18A-3628-4F72-BC9F-0F7466A9F624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722FD18A-3628-4F72-BC9F-0F7466A9F624}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADD41C23-359A-492D-914F-9ED400CD77CB} = {E693EEF9-E255-4D33-A816-924E2FCA2863}
+		{B4CF024A-E464-4A7E-A666-AD09B2962BFD} = {4625F25F-9FAA-4733-8B69-02A74E84462F}
+		{722FD18A-3628-4F72-BC9F-0F7466A9F624} = {8F479D1C-2EE9-4E6C-A7C6-BD89B7657D9E}
 	EndGlobalSection
 EndGlobal
