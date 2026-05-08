@@ -15,10 +15,20 @@ public class User : BaseEntity
         Validate();
     }
 
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string NationalId { get; set; }
-    public int Age { get; set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string NationalId { get; private set; }
+    public int? Age { get; private set; }
+
+    public void UpdateUserInfo(string firstName, string lastName, string nationalId, int? age = null)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        NationalId = nationalId;
+        Age = age ?? Age;
+        Validate();
+        ModifiedAt = DateTime.UtcNow;
+    }
     
     public override void Validate()
     {
