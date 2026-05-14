@@ -1,4 +1,7 @@
-﻿namespace MaktabBlog.Domain.Users;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MaktabBlog.Domain.Users;
 
 public class User : BaseEntity
 {
@@ -14,7 +17,7 @@ public class User : BaseEntity
         Age = age;
         Validate();
     }
-
+    [Column(TypeName =  "nvarchar(51)")]
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string NationalId { get; private set; }

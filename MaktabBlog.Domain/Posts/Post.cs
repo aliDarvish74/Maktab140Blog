@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MaktabBlog.Domain.Posts;
 
 public class Post : BaseEntity
@@ -9,7 +11,7 @@ public class Post : BaseEntity
         UserId = userId;
         Validate();
     }
-
+    
     public string Title { get; private set; }
     public string Content { get; private set; }
     public Guid UserId { get; private set; }
