@@ -1,7 +1,6 @@
 using System.Reflection;
 using MaktabBlog.Domain.Posts;
 using MaktabBlog.Domain.Users;
-using MaktabBlog.Persistence.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

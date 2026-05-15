@@ -1,104 +1,68 @@
+using System.Linq.Expressions;
 using Dapper;
 using MaktabBlog.Domain;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaktabBlog.Persistence;
 
 public abstract class GenericRepository<TEntity> 
     : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    protected readonly string ConnectionsString;
+    protected readonly MaktabBlogDbContext DbContext;
 
-    public GenericRepository(string connectionsString)
+    protected GenericRepository(MaktabBlogDbContext dbContext)
     {
-        ConnectionsString = connectionsString;
+        DbContext = dbContext;
     }
 
     public async Task AddAsync(TEntity entity)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
-        connection.Open();
-        
-        var columns = string.Join(", ", GetEntityProperties());
-        var placeHolders = GetEntityProperties().Select(c => $"@{c}").ToList();
-        var parameters = string.Join(", ", placeHolders);
-
-        var query = $"Insert into {GetTableName()} ({columns}) VALUES ({parameters})";
-
-        await connection.ExecuteAsync(query, entity);
+        await DbContext.Set<TEntity>().AddAsync(entity);
+        await DbContext.SaveChangesAsync();
     }
 
-    public async Task<List<TEntity>> GetAllAsync()
+    public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = false)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
-        connection.Open();
+        var query = DbContext.Set<TEntity>().AsQueryable()
+            .Where(u => u.IsDeleted == false);
 
-        var query = $"Select * From {GetTableName()}";
-
-        var result =  await connection.QueryAsync<TEntity>(query);
-
-        return result.ToList();
+        if (!tracking) query = query.AsNoTracking();
+        
+        return await query.Where(predicate).ToListAsync();
     }
 
-    public async Task<TEntity?> GetByIdAsync(Guid id)
+    public async Task<TEntity?> GetByIdAsync(Guid id, bool tracking = false)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
+        var query = DbContext.Set<TEntity>().AsQueryable().Where(u => u.IsDeleted == false);
         
-        connection.Open();
-
-        var query = $"Select * From {GetTableName()} where Id = @Id";
-
-        return await connection.QueryFirstOrDefaultAsync<TEntity>(query, new { Id = id });
+        if (!tracking) query = query.AsNoTracking();
+        
+        return await query.FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task HardDeleteAsync(Guid id)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
+        var entity = await GetByIdAsync(id);
+        if (entity == null) return;
         
-        connection.Open();
-        
-        var query = $"Delete From {GetTableName()} where Id = @Id";
-        
-        await connection.ExecuteAsync(query, new { Id = id });
+        DbContext.Set<TEntity>().Remove(entity);
+        await DbContext.SaveChangesAsync();
     }
 
     public async Task SoftDeleteAsync(Guid id)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
+        var entity = await GetByIdAsync(id, true);
         
-        connection.Open();
+        if(entity is null) return;
         
-        var query = $"UPDATE {GetTableName()} SET IsDeleted = @IsDeleted, DeletedAt = @DeletedAt WHERE Id = @Id";
-        
-        await connection.ExecuteAsync(query, new
-        {
-            Id = id,
-            IsDeleted = true,
-            DeletedAt = DateTime.UtcNow
-        });
+        entity.SetAsDeleted();
+        await DbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(TEntity entity)
     {
-        await using var connection = new SqlConnection(ConnectionsString);
-        connection.Open();
-        var idExcludedProperties = GetEntityProperties().Where(p => p != "Id").ToList();
-        var updateParams = idExcludedProperties.Select(c => $"{c} = @{c}");
-
-        var query = $@"UPDATE {GetTableName()}
-        SET {string.Join(", ", updateParams)}                              
-        WHERE Id = @Id";
-
-        await connection.ExecuteAsync(query, entity);
-    }
-
-    protected abstract string GetTableName();
-
-    private List<string> GetEntityProperties()
-    {
-        return typeof(TEntity)
-            .GetProperties()
-            .Select(p => p.Name)
-            .ToList();
+        DbContext.Set<TEntity>().Update(entity);
+        await DbContext.SaveChangesAsync();
     }
 }

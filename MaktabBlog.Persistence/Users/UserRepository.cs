@@ -1,22 +1,19 @@
 ﻿using Dapper;
 using MaktabBlog.Domain.Users;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaktabBlog.Persistence.Users;
 
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    private readonly string _connectionsString;
-
-    public UserRepository(string connectionsString) : base(connectionsString)
+    public UserRepository(MaktabBlogDbContext dbContext) : base(dbContext)
     {
-        _connectionsString = connectionsString;
+        
     }
-
-    protected override string GetTableName() => "Users";
-
-    public Task<User?> GetUserByNationalIdAsync(string nationalId)
+    
+    public async Task<User?> GetUserByNationalIdAsync(string nationalId)
     {
-        throw new NotImplementedException();
+        return await DbContext.Users.FirstOrDefaultAsync(u => u.NationalId == nationalId);
     }
 }
