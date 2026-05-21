@@ -15,5 +15,14 @@ public class PostModelBuilderConfiguration : BaseModelBuilderConfiguration<Post>
         modelBuilder.Property(p => p.Content)
             .HasColumnType("varchar(max)")
             .IsRequired();
+
+        modelBuilder.HasOne(p => p.User)
+            .WithMany(u => u.Posts)
+            .HasForeignKey(p => p.UserId)
+            .IsRequired();
+
+        modelBuilder.HasMany(p => p.Comments)
+            .WithOne()
+            .HasForeignKey(c => c.PostId);
     }
 }

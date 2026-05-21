@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+using MaktabBlog.Domain.Comments;
+using MaktabBlog.Domain.Users;
 
 namespace MaktabBlog.Domain.Posts;
 
@@ -15,6 +16,9 @@ public class Post : BaseEntity
     public string Title { get; private set; }
     public string Content { get; private set; }
     public Guid UserId { get; private set; }
+    public User User { get; private set; }
+
+    public List<Comment> Comments { get; private set; } = new List<Comment>();
 
     public void UpdatePostInfo(string title, string content)
     {

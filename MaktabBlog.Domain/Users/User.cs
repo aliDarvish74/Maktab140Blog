@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using MaktabBlog.Domain.Posts;
 
 namespace MaktabBlog.Domain.Users;
 
@@ -17,11 +16,11 @@ public class User : BaseEntity
         Age = age;
         Validate();
     }
-    [Column(TypeName =  "nvarchar(51)")]
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string NationalId { get; private set; }
     public int? Age { get; private set; }
+    public List<Post> Posts { get; private set; } = new List<Post>();
 
     public void UpdateUserInfo(string firstName, string lastName, string nationalId, int? age = null)
     {

@@ -1,7 +1,9 @@
-﻿using System.Linq.Expressions;
-using System.Text.Json;
-using MaktabBlog.Domain.Users;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using MaktabBlog.Domain.Comments;
+using MaktabBlog.Domain.Posts;
 using MaktabBlog.Persistence;
+using MaktabBlog.Persistence.Comments;
 using MaktabBlog.Persistence.Posts;
 using MaktabBlog.Persistence.Users;
 using Microsoft.EntityFrameworkCore;
@@ -9,48 +11,26 @@ using Microsoft.EntityFrameworkCore;
 var dbContext = new MaktabBlogDbContext();
 var userRepo = new UserRepository(dbContext);
 var postRepo = new PostRepository(dbContext);
+var commentRepo = new CommentRepository(dbContext);
+var hosseinId = new Guid("019E2A5C-FFF8-7000-80C3-DF6EA644E54D");
+var nedaId = new Guid("019E2A67-F841-7000-81E6-21EDD67E8908");
+var hosseinPostId = new Guid("019E49BC-4B0A-7000-80C0-6F165F45CEB6");
 
-/*var user = await dbContext.Users
-    .Select(u => new UserDto
-    {
-        UserId = u.Id,
-        FullName = u.FirstName + " " + u.LastName,
-        Age = u.Age
-    })
-    .FirstOrDefaultAsync(u => u.UserId == new Guid("7FB4C02F-67C6-45EF-9548-4818E11C10DF"));*/
+/*var post = new Post("First Hossein Post", "Hala ye chizi", hosseinId);
 
-/*var users = await dbContext.Users
-    .Where(u => u.CreatedAt > DateTime.Now.AddDays(-50))
-    .OrderByDescending(u => u.CreatedAt)
-    .ToListAsync();*/
+await postRepo.AddAsync(post);*/
 
-// var hasNationalId = await dbContext.Set<User>().AnyAsync(u => u.NationalId == "123456789");
+/*var comment = new Comment("Man oghdei Am kesafat....", nedaId, hosseinPostId);
+await commentRepo.AddAsync(comment);*/
 
-/*var user = new User("Neda", "Akbari", "987654321", 22);
+var user = await dbContext.Users
+    .Include(u => u.Posts)
+    .ThenInclude(p => p.Comments)
+    .FirstOrDefaultAsync(u => u.Id == hosseinId);
 
-await userRepo.AddAsync(user);*/
-
-/*var user = await userRepo.GetByIdAsync(new Guid("019E2A67-F841-7000-81E6-21EDD67E8908"));
-
-if (user == null)
-    throw new Exception("User not found");
-
-user.UpdateUserInfo("Nima", "MatinKia", "123456789");
-
-await userRepo.SoftDeleteAsync(user.Id);
-
-Console.WriteLine(JsonSerializer.Serialize(user, new JsonSerializerOptions()
+Console.WriteLine(JsonSerializer.Serialize(user, new JsonSerializerOptions
 {
-    WriteIndented = true
-}));*/
+    WriteIndented = true,
+    ReferenceHandler = ReferenceHandler.IgnoreCycles
+}));
 
-// var users = userRepo.QueryAsync(u => u.CreatedAt >= DateTime.Now || u.FirstName.StartsWith("A"));
-var user = dbContext.Users.FirstOrDefault();
-dbContext.Entry(user).State = EntityState.Modified;
-
-public class UserDto
-{
-    public Guid UserId { get; set; }
-    public string FullName { get; set; }
-    public int? Age { get; set; }
-}

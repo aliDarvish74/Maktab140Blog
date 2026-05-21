@@ -43,7 +43,7 @@ public abstract class GenericRepository<TEntity>
 
     public async Task HardDeleteAsync(Guid id)
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await GetByIdAsync(id, true);
         if (entity == null) return;
         
         DbContext.Set<TEntity>().Remove(entity);
