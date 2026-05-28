@@ -20,7 +20,9 @@ public class User : BaseEntity
     public string LastName { get; private set; }
     public string NationalId { get; private set; }
     public int? Age { get; private set; }
-    public List<Post> Posts { get; private set; } = new List<Post>();
+    public List<Post> Posts { get; private set; } = new();
+
+    public List<Post> LikedPosts { get; private set; } = new();
 
     public void UpdateUserInfo(string firstName, string lastName, string nationalId, int? age = null)
     {

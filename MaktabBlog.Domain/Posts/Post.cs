@@ -18,7 +18,8 @@ public class Post : BaseEntity
     public Guid UserId { get; private set; }
     public User User { get; private set; }
 
-    public List<Comment> Comments { get; private set; } = new List<Comment>();
+    public List<Comment> Comments { get; private set; } = new();
+    public List<User> LikedBy { get; private set; } = new();
 
     public void UpdatePostInfo(string title, string content)
     {

@@ -1,4 +1,5 @@
 using MaktabBlog.Domain.Posts;
+using MaktabBlog.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,13 +29,11 @@ public class PostModelBuilderConfiguration : BaseModelBuilderConfiguration<Post>
 
         modelBuilder.HasMany(p => p.LikedBy)
             .WithMany(u => u.LikedPosts)
-            .UsingEntity<Likes>();
+            .UsingEntity<Like>(config =>
+            {
+                config.ToTable("Likes");
+                config.HasOne(l => l.LikedBy).WithMany().HasForeignKey(l => l.LikedById);
+                config.HasOne(l => l.LikedPost).WithMany().HasForeignKey(l => l.LikedPostsId);
+            });
     }
-}
-
-public class Likes
-{
-    public Guid LikedById { get; set; }
-    public Guid LikedPostId { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

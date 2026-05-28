@@ -4,6 +4,7 @@ using MaktabBlog.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaktabBlog.Persistence.Migrations
 {
     [DbContext(typeof(MaktabBlogDbContext))]
-    partial class MaktabBlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260528064649_AddLikeFunctionality")]
+    partial class AddLikeFunctionality
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,24 +62,6 @@ namespace MaktabBlog.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("MaktabBlog.Domain.Posts.Like", b =>
-                {
-                    b.Property<Guid>("LikedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LikedPostsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("LikedById", "LikedPostsId");
-
-                    b.HasIndex("LikedPostsId");
-
-                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
@@ -160,6 +145,24 @@ namespace MaktabBlog.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MaktabBlog.Persistence.Posts.Likes", b =>
+                {
+                    b.Property<Guid>("LikedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LikedPostsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("LikedById", "LikedPostsId");
+
+                    b.HasIndex("LikedPostsId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("MaktabBlog.Domain.Comments.Comment", b =>
                 {
                     b.HasOne("MaktabBlog.Domain.Posts.Post", null)
@@ -177,7 +180,18 @@ namespace MaktabBlog.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MaktabBlog.Domain.Posts.Like", b =>
+            modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
+                {
+                    b.HasOne("MaktabBlog.Domain.Users.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MaktabBlog.Persistence.Posts.Likes", b =>
                 {
                     b.HasOne("MaktabBlog.Domain.Users.User", "LikedBy")
                         .WithMany()
@@ -194,17 +208,6 @@ namespace MaktabBlog.Persistence.Migrations
                     b.Navigation("LikedBy");
 
                     b.Navigation("LikedPost");
-                });
-
-            modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
-                {
-                    b.HasOne("MaktabBlog.Domain.Users.User", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
