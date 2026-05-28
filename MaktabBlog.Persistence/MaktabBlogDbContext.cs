@@ -1,4 +1,5 @@
 using System.Reflection;
+using MaktabBlog.Domain.Comments;
 using MaktabBlog.Domain.Posts;
 using MaktabBlog.Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ public class MaktabBlogDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

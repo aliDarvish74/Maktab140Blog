@@ -19,10 +19,11 @@ public class PostModelBuilderConfiguration : BaseModelBuilderConfiguration<Post>
         modelBuilder.HasOne(p => p.User)
             .WithMany(u => u.Posts)
             .HasForeignKey(p => p.UserId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.HasMany(p => p.Comments)
             .WithOne()
-            .HasForeignKey(c => c.PostId);
+            .HasForeignKey(c => c.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

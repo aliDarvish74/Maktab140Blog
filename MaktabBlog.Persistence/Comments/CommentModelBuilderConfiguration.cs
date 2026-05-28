@@ -11,10 +11,10 @@ public class CommentModelBuilderConfiguration : BaseModelBuilderConfiguration<Co
         modelBuilder.Property(x => x.Text)
             .HasColumnType("nvarchar(500)")
             .IsRequired();
-
-        modelBuilder.HasOne(x => x.User)
+        
+        modelBuilder.HasOne(c => c.User)
             .WithMany()
-            .HasForeignKey(x => x.UserId)
+            .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

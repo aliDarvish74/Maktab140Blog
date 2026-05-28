@@ -47,7 +47,7 @@ namespace MaktabBlog.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -58,7 +58,7 @@ namespace MaktabBlog.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
@@ -153,7 +153,8 @@ namespace MaktabBlog.Persistence.Migrations
                     b.HasOne("MaktabBlog.Domain.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

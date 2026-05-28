@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaktabBlog.Persistence.Migrations
 {
     [DbContext(typeof(MaktabBlogDbContext))]
-    [Migration("20260521092426_AddCommentEntityWithRelations")]
-    partial class AddCommentEntityWithRelations
+    [Migration("20260528060636_AddCommentWithRelations")]
+    partial class AddCommentWithRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace MaktabBlog.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -61,7 +61,7 @@ namespace MaktabBlog.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
@@ -156,7 +156,8 @@ namespace MaktabBlog.Persistence.Migrations
                     b.HasOne("MaktabBlog.Domain.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

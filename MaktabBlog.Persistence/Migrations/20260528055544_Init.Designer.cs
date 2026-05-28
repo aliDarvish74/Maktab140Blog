@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaktabBlog.Persistence.Migrations
 {
     [DbContext(typeof(MaktabBlogDbContext))]
-    [Migration("20260514082818_Init")]
+    [Migration("20260528055544_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -58,6 +58,8 @@ namespace MaktabBlog.Persistence.Migrations
 
                     b.HasIndex("CreatedAt");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Posts");
                 });
 
@@ -102,6 +104,22 @@ namespace MaktabBlog.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
+                {
+                    b.HasOne("MaktabBlog.Domain.Users.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MaktabBlog.Domain.Users.User", b =>
+                {
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }
