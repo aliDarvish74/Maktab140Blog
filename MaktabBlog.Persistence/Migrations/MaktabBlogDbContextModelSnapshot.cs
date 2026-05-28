@@ -58,7 +58,7 @@ namespace MaktabBlog.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Posts.Post", b =>
@@ -96,7 +96,7 @@ namespace MaktabBlog.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Users.User", b =>
@@ -139,7 +139,7 @@ namespace MaktabBlog.Persistence.Migrations
                     b.HasIndex("NationalId")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MaktabBlog.Domain.Comments.Comment", b =>

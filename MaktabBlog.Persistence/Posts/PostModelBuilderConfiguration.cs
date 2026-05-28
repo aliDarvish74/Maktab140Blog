@@ -25,5 +25,16 @@ public class PostModelBuilderConfiguration : BaseModelBuilderConfiguration<Post>
             .WithOne()
             .HasForeignKey(c => c.PostId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.HasMany(p => p.LikedBy)
+            .WithMany(u => u.LikedPosts)
+            .UsingEntity<Likes>();
     }
+}
+
+public class Likes
+{
+    public Guid LikedById { get; set; }
+    public Guid LikedPostId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

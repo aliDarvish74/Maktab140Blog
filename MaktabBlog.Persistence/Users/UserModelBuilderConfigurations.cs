@@ -22,10 +22,5 @@ public class UserModelBuilderConfigurations : BaseModelBuilderConfiguration<User
         
         modelBuilder.HasIndex(u => u.NationalId)
             .IsUnique();
-        
-        modelBuilder.HasMany(u => u.Posts)
-            .WithOne(p => p.User)
-            .HasForeignKey(p => p.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
