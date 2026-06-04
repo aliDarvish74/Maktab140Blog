@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using MaktabBlog.Domain.Posts;
+using MaktabBlog.Business.Users;
+using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Domain.Users;
 using MaktabBlog.Persistence;
 using MaktabBlog.Persistence.Users;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaktabBlog.WebAPI;
@@ -11,9 +11,16 @@ namespace MaktabBlog.WebAPI;
 [Route("users")]
 public class UserController : ControllerBase
 {
-    private IUserRepository _userRepository = new UserRepository(new MaktabBlogDbContext());
+    private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
+
+    public UserController(IUserService userService, IUserRepository userRepository)
+    {
+        _userService = userService;
+        _userRepository = userRepository;
+    }
     
-    [HttpGet("getAllUsers")]
+    [HttpGet()]
     public async Task<ActionResult<List<User>>> GetUsersAsync(
         [FromQuery][Range(1d,10d)] int pageNumber = 1, 
         [FromQuery] int pageSize = 10)
@@ -23,11 +30,10 @@ public class UserController : ControllerBase
         return users;
     }
     
-    [HttpGet("getUser/{userId:guid}")]
-    public async Task<ActionResult<User>> GetUserByIdAsync([FromQuery] Guid userId, [FromQuery] string? userName)
+    [HttpGet("{userId:guid}")]
+    public async Task<ActionResult<User>> GetUserByIdAsync([FromRoute] Guid userId)
     {
         var user = await _userRepository.GetByIdAsync(userId);
-        Console.WriteLine(userName);
         if(user == null)
             return NotFound("User not found!");
         
@@ -50,8 +56,29 @@ public class UserController : ControllerBase
         
         return Created();
     }
-    
-    
+
+    [HttpPut("{userId:guid}")]
+    public async Task<IActionResult> UpdateUserAsync(
+        [FromRoute] Guid userId,
+        [FromBody] UpdateUserRequestDto requestDto)
+    {
+        await _userService.UpdateUserInfoAsync(requestDto.ToCommand(userId));
+        return NoContent();
+    }
+
+    [HttpPatch("{userId:guid}")]
+    public async Task<IActionResult> UpdateNationalIdAsync([FromRoute] Guid userId,
+        [FromBody] UpdateNationalIdRequestDto requestDto)
+    {
+        var user = await _userRepository.GetByIdAsync(userId, true);
+        if(user == null)
+            return NotFound("User not found!");
+        
+        user.UpdateUserInfo(user.FirstName,user.LastName,requestDto.NationalId);
+        await _userRepository.UpdateAsync(user);
+        
+        return NoContent();
+    }
 }
 
 public class AddUserRequestDto
@@ -60,4 +87,27 @@ public class AddUserRequestDto
     public string LastName { get; set; }
     public string NationalId { get; set; }
     public int Age { get; set; }
+}
+
+public class UpdateUserRequestDto
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+
+    public UpdateUserInfoCommand ToCommand(Guid userId)
+    {
+        return new UpdateUserInfoCommand
+        {
+            Id = userId,
+            FirstName = FirstName,
+            LastName = LastName,
+            Age = Age
+        };
+    }
+}
+
+public class UpdateNationalIdRequestDto
+{
+    public string NationalId { get; set; }
 }

@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MaktabBlog.Business\MaktabBlog.Business.csproj" />
       <ProjectReference Include="..\MaktabBlog.Domain\MaktabBlog.Domain.csproj" />
       <ProjectReference Include="..\MaktabBlog.Persistence\MaktabBlog.Persistence.csproj" />
     </ItemGroup>
