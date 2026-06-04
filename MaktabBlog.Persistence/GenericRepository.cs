@@ -22,14 +22,18 @@ public abstract class GenericRepository<TEntity>
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = false)
+    public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = false, int pageSize = 10, int skip = 0 )
     {
         var query = DbContext.Set<TEntity>().AsQueryable()
             .Where(u => u.IsDeleted == false);
 
         if (!tracking) query = query.AsNoTracking();
         
-        return await query.Where(predicate).ToListAsync();
+        return await query.Where(predicate)
+            .Skip(skip)
+            .Take(pageSize)
+            .OrderByDescending(e => e.CreatedAt)
+            .ToListAsync();
     }
 
     public async Task<TEntity?> GetByIdAsync(Guid id, bool tracking = false)

@@ -36,5 +36,7 @@ public class User : BaseEntity
     
     public override void Validate()
     {
+        if(string.IsNullOrWhiteSpace(FirstName))
+            throw new ArgumentNullException($"{nameof(FirstName)} cannot be null or whitespace.");
     }
 }
