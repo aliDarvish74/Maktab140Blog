@@ -83,9 +83,13 @@ public class UserController : ControllerBase
 
 public class AddUserRequestDto
 {
+    [Required(ErrorMessage = "First name is required.", AllowEmptyStrings =  false)]
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    [Required(ErrorMessage = "National id is required.", AllowEmptyStrings = false)]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "National can only have digits.")]
     public string NationalId { get; set; }
+    [Range(18, 80, ErrorMessage = "Age should be in current limitation")]
     public int Age { get; set; }
 }
 
