@@ -1,15 +1,18 @@
 using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Domain.Users;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MaktabBlog.Business.Users;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IServiceScopeFactory serviceScopeFactory)
     {
         _userRepository = userRepository;
+        _serviceScopeFactory = serviceScopeFactory;
     }
     public async Task UpdateUserInfoAsync(UpdateUserInfoCommand command)
     {
