@@ -13,7 +13,12 @@
     <ItemGroup>
       <ProjectReference Include="..\MaktabBlog.Business\MaktabBlog.Business.csproj" />
       <ProjectReference Include="..\MaktabBlog.Domain\MaktabBlog.Domain.csproj" />
+      <ProjectReference Include="..\MaktabBlog.ExternalServices\MaktabBlog.ExternalServices.csproj" />
       <ProjectReference Include="..\MaktabBlog.Persistence\MaktabBlog.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\Users\ResponseDtos\" />
     </ItemGroup>
 
 </Project>

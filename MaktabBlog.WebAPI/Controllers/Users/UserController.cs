@@ -1,12 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using MaktabBlog.Business.Abstraction.Exceptions;
 using MaktabBlog.Business.Users;
-using MaktabBlog.Business.Users.Contracts.Commands;
+using MaktabBlog.Business.Users.Exceptions;
 using MaktabBlog.Domain.Users;
-using MaktabBlog.Persistence;
-using MaktabBlog.Persistence.Users;
+using MaktabBlog.WebAPI.Filters;
+using MaktabBlog.WebAPI.Models.Users.RequestDtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MaktabBlog.WebAPI;
+namespace MaktabBlog.WebAPI.Controllers.Users;
+
 [ApiController]
 [Route("users")]
 public class UserController : ControllerBase
@@ -79,39 +81,4 @@ public class UserController : ControllerBase
         
         return NoContent();
     }
-}
-
-public class AddUserRequestDto
-{
-    [Required(ErrorMessage = "First name is required.", AllowEmptyStrings =  false)]
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    [Required(ErrorMessage = "National id is required.", AllowEmptyStrings = false)]
-    [RegularExpression(@"^\d{10}$", ErrorMessage = "National can only have digits.")]
-    public string NationalId { get; set; }
-    [Range(18, 80, ErrorMessage = "Age should be in current limitation")]
-    public int Age { get; set; }
-}
-
-public class UpdateUserRequestDto
-{
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
-
-    public UpdateUserInfoCommand ToCommand(Guid userId)
-    {
-        return new UpdateUserInfoCommand
-        {
-            Id = userId,
-            FirstName = FirstName,
-            LastName = LastName,
-            Age = Age
-        };
-    }
-}
-
-public class UpdateNationalIdRequestDto
-{
-    public string NationalId { get; set; }
 }
