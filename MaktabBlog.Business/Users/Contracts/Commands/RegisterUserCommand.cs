@@ -1,0 +1,7 @@
+namespace MaktabBlog.Business.Users.Contracts.Commands;
+
+public record RegisterUserCommand(
+    string FirstName,
+    string LastName,
+    string NationalId,
+    int? Age = null);

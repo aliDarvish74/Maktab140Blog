@@ -8,7 +8,7 @@ public class User : BaseEntity
     {
         
     }
-    public User(string firstName, string lastName, string nationalId, int age)
+    public User(string firstName, string lastName, string nationalId, int? age = null)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -16,10 +16,10 @@ public class User : BaseEntity
         Age = age;
         Validate();
     }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string NationalId { get; private set; }
-    public int? Age { get; private set; }
+    public string FirstName { get;  set; }
+    public string LastName { get;  set; }
+    public string NationalId { get;  set; }
+    public int? Age { get;  set; }
     public List<Post> Posts { get; private set; } = new();
 
     public List<Post> LikedPosts { get; private set; } = new();

@@ -1,7 +1,5 @@
 using System.Linq.Expressions;
-using Dapper;
 using MaktabBlog.Domain;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaktabBlog.Persistence;
@@ -22,14 +20,17 @@ public abstract class GenericRepository<TEntity>
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = false, int pageSize = 10, int skip = 0 )
+    public async Task<List<TEntity>> QueryAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        bool tracking = false,
+        int pageSize = 10,
+        int skip = 0 )
     {
-        var query = DbContext.Set<TEntity>().AsQueryable()
-            .Where(u => u.IsDeleted == false);
+        var query = DbContext.Set<TEntity>().AsQueryable();
 
         if (!tracking) query = query.AsNoTracking();
-        
-        return await query.Where(predicate)
+        return await query
+            .Where(predicate)
             .Skip(skip)
             .Take(pageSize)
             .OrderByDescending(e => e.CreatedAt)
@@ -39,9 +40,9 @@ public abstract class GenericRepository<TEntity>
     public async Task<TEntity?> GetByIdAsync(Guid id, bool tracking = false)
     {
         var query = DbContext.Set<TEntity>().AsQueryable().Where(u => u.IsDeleted == false);
-        
+
         if (!tracking) query = query.AsNoTracking();
-        
+
         return await query.FirstOrDefaultAsync(e => e.Id == id);
     }
 
