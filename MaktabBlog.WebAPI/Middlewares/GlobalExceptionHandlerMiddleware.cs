@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using System.Text.Json;
 using MaktabBlog.Business.Abstraction.Exceptions;
 using MaktabBlog.Domain;
@@ -36,6 +37,10 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
             case BaseBusinessException ex:
                 context.Response.StatusCode = 400;
                 context.Response.WriteAsync(GenerateResponseBody(ex.Code, ex.Message));
+                break;
+            case AuthenticationException ex:
+                context.Response.StatusCode = 401;
+                context.Response.WriteAsync(GenerateResponseBody("AuthenticationError_401", ex.Message));
                 break;
             default:
                 context.Response.StatusCode = 500;

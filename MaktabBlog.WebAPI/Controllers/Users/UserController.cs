@@ -3,6 +3,7 @@ using MaktabBlog.Business.Users;
 using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Domain.Users;
 using MaktabBlog.Domain.Users.ViewModels;
+using MaktabBlog.WebAPI.Filters;
 using MaktabBlog.WebAPI.Models.Abstractions;
 using MaktabBlog.WebAPI.Models.Users.RequestDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace MaktabBlog.WebAPI.Controllers.Users;
 
 [ApiController]
 [Route("users")]
+[BasicAuthorizationFilter]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -78,7 +80,6 @@ public class UserController : ControllerBase
     {
         var command = new RegisterUserCommand(requestDto.FirstName,  requestDto.LastName, requestDto.NationalId,  requestDto.Age);
         var userId = await _userService.RegisterUserAsync(command);
-        
         return Created("/users", userId);
     }
 
