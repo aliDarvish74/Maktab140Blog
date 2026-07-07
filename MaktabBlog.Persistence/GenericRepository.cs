@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 namespace MaktabBlog.Persistence;
 
 public abstract class GenericRepository<TEntity> 
-    : IGenericRepository<TEntity> where TEntity : BaseEntity
+    : IGenericRepository<TEntity> 
+    where TEntity : BaseEntity, IAudibleEntity
 {
     protected readonly MaktabBlogDbContext DbContext;
 
@@ -22,17 +23,16 @@ public abstract class GenericRepository<TEntity>
 
     public async Task<List<TEntity>> QueryAsync(
         Expression<Func<TEntity, bool>> predicate,
-        bool tracking = false,
-        int pageSize = 10,
-        int skip = 0 )
+        Paging paging,
+        bool tracking = false)
     {
         var query = DbContext.Set<TEntity>().AsQueryable();
 
         if (!tracking) query = query.AsNoTracking();
         return await query
             .Where(predicate)
-            .Skip(skip)
-            .Take(pageSize)
+            .Skip(paging.Skip)
+            .Take(paging.PageSize)
             .OrderByDescending(e => e.CreatedAt)
             .ToListAsync();
     }

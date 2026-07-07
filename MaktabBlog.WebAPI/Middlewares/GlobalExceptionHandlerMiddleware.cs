@@ -3,6 +3,7 @@ using System.Text.Json;
 using MaktabBlog.Business.Abstraction.Exceptions;
 using MaktabBlog.Domain;
 using MaktabBlog.WebAPI.Models.Abstractions;
+using MaktabBlog.WebAPI.Models.Users.ResponseDtos;
 
 namespace MaktabBlog.WebAPI.Middlewares;
 
@@ -53,16 +54,7 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
 
     private string GenerateResponseBody(string code, string message)
     {
-        var response = new BaseResponseDto<string>
-        {
-            Data = null,
-            IsSuccess = false,
-            Error = new BaseError
-            {
-                Code = code,
-                Message = message
-            }
-        };
+        var response = new GeneralResponseDto(message,  code);
 
         return JsonSerializer.Serialize(response, new JsonSerializerOptions()
         {

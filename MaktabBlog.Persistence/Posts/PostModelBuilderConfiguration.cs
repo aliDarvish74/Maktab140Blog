@@ -1,5 +1,4 @@
 using MaktabBlog.Domain.Posts;
-using MaktabBlog.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

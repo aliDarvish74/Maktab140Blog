@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.WebAPI.Filters;
 
 namespace MaktabBlog.WebAPI.Models.Users.RequestDtos;
@@ -34,4 +35,15 @@ public class AddUserRequestDto
     /// <example>18</example>
     [Range(18, 80, ErrorMessage = "Age should be in current limitation")]
     public int Age { get; set; }
+    
+    /// <summary>
+    /// Registering user's password
+    /// </summary>
+    /// <example>Ali123</example>
+    public string Password { get; set; }
+
+    public RegisterUserCommand ToCommand()
+    {
+        return new RegisterUserCommand(FirstName, LastName, NationalId, Password, Age);
+    }
 }

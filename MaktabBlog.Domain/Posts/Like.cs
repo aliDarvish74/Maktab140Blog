@@ -4,7 +4,7 @@ namespace MaktabBlog.Domain.Posts;
 
 public class Like
 {
-    public Guid LikedById { get; set; }
+    public string LikedById { get; set; }
     public User LikedBy { get; set; }
     public Guid LikedPostsId { get; set; }
     public Post LikedPost { get; set; }

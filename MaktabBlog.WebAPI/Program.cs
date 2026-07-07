@@ -1,5 +1,4 @@
 using System.Reflection;
-using MaktabBlog.Business;
 using MaktabBlog.Business.Notifiers;
 using MaktabBlog.Business.Users;
 using MaktabBlog.Domain.Users;
@@ -9,9 +8,8 @@ using MaktabBlog.Persistence;
 using MaktabBlog.Persistence.Users;
 using MaktabBlog.WebAPI.Filters;
 using MaktabBlog.WebAPI.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using Microsoft.Extensions.Http.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +32,23 @@ var sqlServerConnectionString = builder.Configuration.GetConnectionString("SqlSe
 
 builder.Services.AddDbContext<MaktabBlogDbContext>(options =>
 {
-    options.LogTo(Console.WriteLine, LogLevel.Information)
+    options
+        .LogTo(Console.WriteLine, LogLevel.Information)
         .UseSqlServer(sqlServerConnectionString);
 });
+
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireDigit = true;
+        
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    })
+    .AddEntityFrameworkStores<MaktabBlogDbContext>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

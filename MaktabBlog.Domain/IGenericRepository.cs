@@ -8,9 +8,8 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 
     Task<List<TEntity>> QueryAsync(
         Expression<Func<TEntity, bool>> predicate,
-        bool tracking = false,
-        int pageSize = 10,
-        int skip = 0);
+        Paging paging,
+        bool tracking = false);
     
     Task<TEntity?> GetByIdAsync(Guid id, bool tracking = false);
     Task HardDeleteAsync(Guid id);

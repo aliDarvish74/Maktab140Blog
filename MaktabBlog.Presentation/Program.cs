@@ -8,10 +8,10 @@ using MaktabBlog.Persistence.Posts;
 using MaktabBlog.Persistence.Users;
 using Microsoft.EntityFrameworkCore;
 
-var dbContext = new MaktabBlogDbContext();
-var userRepo = new UserRepository(dbContext);
-var postRepo = new PostRepository(dbContext);
-var commentRepo = new CommentRepository(dbContext);
+// var dbContext = new MaktabBlogDbContext();
+// var userRepo = new UserRepository(dbContext);
+// var postRepo = new PostRepository(dbContext);
+// var commentRepo = new CommentRepository(dbContext);
 
 /*var user = new User("Ali", "Darvish", "123456789", 31);
 var post = new Post("First Ali post.", "Content", user.Id);
@@ -36,7 +36,7 @@ post.LikedBy.Add(user);
 
 await postRepo.UpdateAsync(post);*/
 var t = 12;
-var post = await dbContext.Posts.Select(p => new PostDto
+/*var post = await dbContext.Posts.Select(p => new PostDto
     {
         Id = p.Id,
         Title = p.Title,
@@ -58,9 +58,9 @@ var post = await dbContext.Posts.Select(p => new PostDto
             }
         })
     })
-    .FirstAsync();
+    .FirstAsync();*/
 
-Console.WriteLine(JsonSerializer.Serialize(post, new JsonSerializerOptions() { WriteIndented = true }));
+// Console.WriteLine(JsonSerializer.Serialize(post, new JsonSerializerOptions() { WriteIndented = true }));
 
 public class PostDto
 {

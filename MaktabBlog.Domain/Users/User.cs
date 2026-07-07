@@ -1,18 +1,19 @@
 ﻿using MaktabBlog.Domain.Posts;
+using Microsoft.AspNetCore.Identity;
 
 namespace MaktabBlog.Domain.Users;
 
-public class User : BaseEntity
+public sealed class User : IdentityUser, IAudibleEntity
 {
     public User()
     {
-        
     }
     public User(string firstName, string lastName, string nationalId, int? age = null)
     {
         FirstName = firstName;
         LastName = lastName;
         NationalId = nationalId;
+        UserName = nationalId;
         Age = age;
         Validate();
     }
@@ -23,6 +24,11 @@ public class User : BaseEntity
     public List<Post> Posts { get; private set; } = new();
 
     public List<Post> LikedPosts { get; private set; } = new();
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? ModifiedAt { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public void UpdateUserInfo(string firstName, string lastName, string nationalId, int? age = null)
     {
@@ -31,10 +37,10 @@ public class User : BaseEntity
         NationalId = nationalId;
         Age = age ?? Age;
         Validate();
-        ModifiedAt = DateTime.UtcNow;
+        ModifiedAt =  DateTime.UtcNow;
     }
-    
-    public override void Validate()
+
+    private void Validate()
     {
         if(string.IsNullOrWhiteSpace(FirstName))
             throw new ArgumentNullException($"{nameof(FirstName)} cannot be null or whitespace.");

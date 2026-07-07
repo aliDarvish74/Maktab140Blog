@@ -9,6 +9,10 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.16">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
     </ItemGroup>
 
@@ -17,10 +21,6 @@
       <ProjectReference Include="..\MaktabBlog.Domain\MaktabBlog.Domain.csproj" />
       <ProjectReference Include="..\MaktabBlog.ExternalServices\MaktabBlog.ExternalServices.csproj" />
       <ProjectReference Include="..\MaktabBlog.Persistence\MaktabBlog.Persistence.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models\Users\ResponseDtos\" />
     </ItemGroup>
 
 </Project>
