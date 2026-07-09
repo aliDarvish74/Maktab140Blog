@@ -1,6 +1,6 @@
 using MaktabBlog.Business.Abstraction.Exceptions;
 
-namespace MaktabBlog.Business.Users.Exceptions;
+namespace MaktabBlog.Business.Authentications.Exceptions;
 
 public class DuplicateUserFoundException : BaseBusinessException
 {

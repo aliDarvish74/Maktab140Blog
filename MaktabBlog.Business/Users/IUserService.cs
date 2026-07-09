@@ -7,7 +7,6 @@ namespace MaktabBlog.Business.Users;
 
 public interface IUserService
 {
-    // Task UpdateUserInfoAsync(UpdateUserInfoCommand command);
-    Task<string> RegisterUserAsync(RegisterUserCommand command);
+    Task UpdateUserInfoAsync(UpdateUserInfoCommand command);
     Task<List<UserArg>> GetUsersAsync(GetUsersQuery query);
 }

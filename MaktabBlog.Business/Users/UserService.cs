@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using MaktabBlog.Business.Abstraction.Exceptions;
 using MaktabBlog.Business.Notifiers;
 using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Business.Users.Contracts.Queries;
@@ -29,15 +30,18 @@ public class UserService : IUserService
         _inquiryService = inquiryService;
         _notifierFactory = notifierFactory;
     }
-    /*public async Task UpdateUserInfoAsync(UpdateUserInfoCommand command)
+    public async Task UpdateUserInfoAsync(UpdateUserInfoCommand command)
     {
-        var user = await _userRepository.GetByIdAsync(command.Id, true);
-
+        if (command.Id != command.RequesterId)
+            throw new PermissionDeniedException();
+        
+        var user = await _userManager.FindByIdAsync(command.Id.ToString());
+        
         if (user == null)
             throw new UserNotFoundException(nameof(User));
         
         user.UpdateUserInfo(command.FirstName, command.LastName, user.NationalId, command.Age);
-        await _userRepository.UpdateAsync(user);
+        await _userManager.UpdateAsync(user);
 
         var notifier = _notifierFactory.GetNotifier();
         
@@ -45,27 +49,6 @@ public class UserService : IUserService
             throw new ArgumentNullException(nameof(notifier));
         
         notifier.Send("User updated.");
-    }*/
-
-    public async Task<string> RegisterUserAsync(RegisterUserCommand command)
-    {
-        var duplicateUser = await _userManager.FindByNameAsync(command.NationalId);
-
-        if (duplicateUser != null)
-            throw new DuplicateUserFoundException(command.NationalId);
-
-        if (!await _inquiryService.IsAvailableAsync())
-            throw new Exception("Inquiry service is not available.");
-        
-        var user = new User(command.FirstName, command.LastName, command.NationalId, command.Age);
-        
-        var result = await _userManager.CreateAsync(user, command.Password);
-        
-        if (!result.Succeeded)
-        {
-            throw new UserRegistrationException(result.Errors.FirstOrDefault()?.Description ??  "Registration failed.");
-        }
-        return user.Id;
     }
 
     public async Task<List<UserArg>> GetUsersAsync(GetUsersQuery query)

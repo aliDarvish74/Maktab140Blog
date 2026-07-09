@@ -1,7 +1,6 @@
-using MaktabBlog.WebAPI.Models.Abstractions;
 using MaktabBlog.WebAPI.Models.Users.ResponseDtos.Dtos;
 
-namespace MaktabBlog.WebAPI.Models.Users.ResponseDtos;
+namespace MaktabBlog.WebAPI.Models.Abstractions;
 
 public class GeneralResponseDto : BaseResponseDto<GeneralDto>
 {

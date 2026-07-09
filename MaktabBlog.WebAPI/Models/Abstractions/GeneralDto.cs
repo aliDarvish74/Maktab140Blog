@@ -1,4 +1,4 @@
-namespace MaktabBlog.WebAPI.Models.Users.ResponseDtos.Dtos;
+namespace MaktabBlog.WebAPI.Models.Abstractions;
 
 public class GeneralDto
 {

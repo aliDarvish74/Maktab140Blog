@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using MaktabBlog.Business.Authentications;
 using MaktabBlog.Business.Users;
 using MaktabBlog.Business.Users.Contracts.Queries;
 using MaktabBlog.Business.Users.Contracts.Results.Args;
@@ -7,17 +9,18 @@ using MaktabBlog.WebAPI.Models.Abstractions;
 using MaktabBlog.WebAPI.Models.Users.RequestDtos;
 using MaktabBlog.WebAPI.Models.Users.ResponseDtos;
 using MaktabBlog.WebAPI.Models.Users.ResponseDtos.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaktabBlog.WebAPI.Controllers.Users;
 
 [ApiController]
-[Route("users")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IAuthenticationService authenticationService)
     {
         _userService = userService;
     }
@@ -76,19 +79,21 @@ public class UserController : ControllerBase
     /// </remarks>
     /// <param name="requestDto"></param>
     /// <returns></returns>
-    [HttpPost]
-    public async Task<IActionResult> AddUserAsync([FromBody] AddUserRequestDto requestDto)
-    {
-        var userId = await _userService.RegisterUserAsync(requestDto.ToCommand());
-        return Ok(new GeneralResponseDto(Guid.Parse(userId)));
-    }
+    
 
     [HttpPut("{userId:guid}")]
+    [Authorize]
     public async Task<IActionResult> UpdateUserAsync(
         [FromRoute] Guid userId,
         [FromBody] UpdateUserRequestDto requestDto)
     {
-        return Ok();
+        var user = HttpContext.User;
+        
+        var requesterId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        Guid.TryParse(requesterId, out var id);
+        
+        await _userService.UpdateUserInfoAsync(requestDto.ToCommand(userId, id));
+        return NoContent();
     }
 
     [HttpPatch("{userId:guid}")]

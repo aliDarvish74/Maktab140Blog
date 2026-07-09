@@ -8,11 +8,12 @@ public class UpdateUserRequestDto
     public string LastName { get; set; }
     public int Age { get; set; }
 
-    public UpdateUserInfoCommand ToCommand(Guid userId)
+    public UpdateUserInfoCommand ToCommand(Guid userId, Guid requesterId)
     {
         return new UpdateUserInfoCommand
         {
             Id = userId,
+            RequesterId = requesterId,
             FirstName = FirstName,
             LastName = LastName,
             Age = Age

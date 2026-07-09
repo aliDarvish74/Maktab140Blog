@@ -1,4 +1,4 @@
-namespace MaktabBlog.Business.Users.Contracts.Commands;
+namespace MaktabBlog.Business.Authentications.Contracts.Commands;
 
 public record RegisterUserCommand(
     string FirstName,

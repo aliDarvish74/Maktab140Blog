@@ -22,14 +22,11 @@ public sealed class User : IdentityUser, IAudibleEntity
     public string NationalId { get;  set; }
     public int? Age { get;  set; }
     public List<Post> Posts { get; private set; } = new();
-
     public List<Post> LikedPosts { get; private set; } = new();
-    
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? ModifiedAt { get; set; }
-    public bool IsDeleted { get; set; }
-    public DateTime? DeletedAt { get; set; }
-
+    public DateTime CreatedAt { get; init; }
+    public DateTime? ModifiedAt { get; private set; }
+    public DateTime? DeletedAt { get; private set; }
+    public bool IsDeleted { get; private set; }
     public void UpdateUserInfo(string firstName, string lastName, string nationalId, int? age = null)
     {
         FirstName = firstName;
@@ -44,5 +41,10 @@ public sealed class User : IdentityUser, IAudibleEntity
     {
         if(string.IsNullOrWhiteSpace(FirstName))
             throw new ArgumentNullException($"{nameof(FirstName)} cannot be null or whitespace.");
+    }
+    public void SetAsDeleted()
+    {
+        DeletedAt = DateTime.UtcNow;
+        IsDeleted = true;
     }
 }
