@@ -77,7 +77,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var claims = new List<Claim>()
         {
-            new(JwtRegisteredClaimNames.Sub, user.Id),
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
         };

@@ -32,15 +32,24 @@ public class UserService : IUserService
     }
     public async Task UpdateUserInfoAsync(UpdateUserInfoCommand command)
     {
-        if (command.Id != command.RequesterId)
+        var requester = await _userManager.FindByIdAsync(command.RequesterId.ToString());
+        
+        if (requester == null)
             throw new PermissionDeniedException();
         
-        var user = await _userManager.FindByIdAsync(command.Id.ToString());
+        var requesterRoles = await _userManager.GetRolesAsync(requester);
+
+        if (command.Id != requester.Id && !requesterRoles.Contains("Admin"))
+            throw new PermissionDeniedException();
         
+        var user = requester.Id == command.Id 
+            ? requester 
+            : await _userManager.FindByIdAsync(command.Id.ToString());
+
         if (user == null)
             throw new UserNotFoundException(nameof(User));
         
-        user.UpdateUserInfo(command.FirstName, command.LastName, user.NationalId, command.Age);
+        user.UpdateUserInfo(command.FirstName, command.LastName, user.NationalId, requester.Id, command.Age);
         await _userManager.UpdateAsync(user);
 
         var notifier = _notifierFactory.GetNotifier();
@@ -54,11 +63,12 @@ public class UserService : IUserService
     public async Task<List<UserArg>> GetUsersAsync(GetUsersQuery query)
     {
         Expression<Func<User, bool>> predicate = u => (query.Age == null || u.Age == query.Age) &&
-                                                      (query.SubmissionDate == null || query.SubmissionDate.Value.Date == u.CreatedAt.Date);
+                                                      (query.SubmissionDate == null ||
+                                                       query.SubmissionDate.Value.Date == u.CreatedAt.Date);
 
         Expression<Func<User, UserArg>> projection = u => new UserArg
         {
-            Id = Guid.Parse(u.Id),
+            Id = u.Id,
             FirstName = u.FirstName,
             LastName = u.LastName,
             Username = u.UserName,

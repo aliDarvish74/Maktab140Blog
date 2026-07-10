@@ -13,6 +13,6 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     
     Task<TEntity?> GetByIdAsync(Guid id, bool tracking = false);
     Task HardDeleteAsync(Guid id);
-    Task SoftDeleteAsync(Guid id);
+    Task SoftDeleteAsync(Guid id, Guid requesterId);
     Task UpdateAsync(TEntity entity);
 }

@@ -5,28 +5,29 @@ namespace MaktabBlog.Domain.Posts;
 
 public class Post : BaseEntity
 {
-    public Post(string title, string content, string userId)
+    public Post(string title, string content, Guid userId)
     {
         Title = title;
         Content = content;
         UserId = userId;
+        CreatedById = userId;
         Validate();
     }
     
     public string Title { get; private set; }
     public string Content { get; private set; }
-    public string UserId { get; private set; }
+    public Guid UserId { get; private set; }
     public User User { get; private set; }
 
     public List<Comment> Comments { get; private set; } = new();
     public List<User> LikedBy { get; private set; } = new();
 
-    public void UpdatePostInfo(string title, string content)
+    public void UpdatePostInfo(string title, string content, Guid requesterId)
     {
         Title = title;
         Content = content;
         Validate();
-        ModifiedAt = DateTime.UtcNow;
+        SetModificationInfo(requesterId);
     }
     
     public override void Validate()

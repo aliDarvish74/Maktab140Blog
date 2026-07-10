@@ -71,7 +71,7 @@ builder.Services.AddDbContext<MaktabBlogDbContext>(options =>
         .UseSqlServer(sqlServerConnectionString);
 });
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+builder.Services.AddIdentity<User, Role>(options =>
     {
         options.Password.RequiredLength = 8;
         options.Password.RequireNonAlphanumeric = false;
@@ -105,7 +105,7 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings.Audience,
         ValidateAudience = true,
         ValidIssuer = jwtSettings.Issuer,
-        ValidateIssuer = true,
+        ValidateIssuer = true
     };
 });
 

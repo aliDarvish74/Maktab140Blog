@@ -16,6 +16,7 @@ namespace MaktabBlog.WebAPI.Controllers.Users;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -79,15 +80,13 @@ public class UserController : ControllerBase
     /// </remarks>
     /// <param name="requestDto"></param>
     /// <returns></returns>
-    
 
     [HttpPut("{userId:guid}")]
-    [Authorize]
     public async Task<IActionResult> UpdateUserAsync(
         [FromRoute] Guid userId,
         [FromBody] UpdateUserRequestDto requestDto)
     {
-        var user = HttpContext.User;
+        var user = User;
         
         var requesterId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         Guid.TryParse(requesterId, out var id);

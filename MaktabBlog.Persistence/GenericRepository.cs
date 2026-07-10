@@ -6,7 +6,7 @@ namespace MaktabBlog.Persistence;
 
 public abstract class GenericRepository<TEntity> 
     : IGenericRepository<TEntity> 
-    where TEntity : BaseEntity, IAudibleEntity
+    where TEntity : BaseEntity, IAuditableEntity
 {
     protected readonly MaktabBlogDbContext DbContext;
 
@@ -55,13 +55,13 @@ public abstract class GenericRepository<TEntity>
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task SoftDeleteAsync(Guid id)
+    public async Task SoftDeleteAsync(Guid id, Guid requesterId)
     {
         var entity = await GetByIdAsync(id, true);
         
         if(entity is null) return;
         
-        entity.SetAsDeleted();
+        entity.SetAsDeleted(requesterId);
         await DbContext.SaveChangesAsync();
     }
 
