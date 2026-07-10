@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using MaktabBlog.Business.Authentications;
+using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Business.Notifiers;
 using MaktabBlog.Business.Users;
 using MaktabBlog.Domain.Users;
@@ -8,6 +9,7 @@ using MaktabBlog.ExternalServices.Inquiries;
 using MaktabBlog.ExternalServices.Notifiers;
 using MaktabBlog.Persistence;
 using MaktabBlog.Persistence.Users;
+using MaktabBlog.WebAPI.Extensions;
 using MaktabBlog.WebAPI.Filters;
 using MaktabBlog.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -109,7 +111,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy(
+        "VipOnly",
+        policy => policy.RequireClaim(ClaimConstants.VipUser.Type, ClaimConstants.VipUser.Value));
+});
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -136,7 +143,7 @@ builder.Services.AddScoped<GlobalExceptionHandlerMiddleware>();
 builder.Services.AddScoped<LoggingMiddleware>();
 
 var app = builder.Build();
-
+await app.SeedDataBaseAsync();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

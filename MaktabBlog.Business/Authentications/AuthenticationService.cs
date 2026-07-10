@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using MaktabBlog.Business.Abstraction.Contracts.Results;
 using MaktabBlog.Business.Abstraction.Exceptions;
+using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Business.Authentications.Contracts.Commands;
 using MaktabBlog.Business.Authentications.Contracts.Results;
 using MaktabBlog.Business.Authentications.Exceptions;
@@ -20,12 +21,18 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly RoleManager<Role> _roleManager;
     private readonly JwtSettings _jwtSettings;
 
-    public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager, IOptions<JwtSettings> options)
+    public AuthenticationService(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        RoleManager<Role> roleManager,
+        IOptions<JwtSettings> options)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
         _jwtSettings = options.Value;
     }
     public async Task<GeneralResult> RegisterAsync(RegisterUserCommand command)
@@ -38,6 +45,7 @@ public class AuthenticationService : IAuthenticationService
         var user = new User(command.FirstName, command.LastName, command.NationalId, command.Age);
         
         var result = await _userManager.CreateAsync(user, command.Password);
+        var roleResult = await _userManager.AddToRoleAsync(user, RoleConstants.UserRoleName);
         
         if (!result.Succeeded)
         {
@@ -82,10 +90,17 @@ public class AuthenticationService : IAuthenticationService
             new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
         };
         
-        var roleClaims = (await _userManager.GetRolesAsync(user))
-            .Select(r => new Claim(ClaimTypes.Role, r));
+        var userRoles = (await _userManager.GetRolesAsync(user))
+            .Select(r => new Claim(ClaimTypes.Role, r)).ToList();
+
+        foreach (var claim in userRoles)
+        {
+            var role = _roleManager.Roles.FirstOrDefault(r => r.Name == claim.Value);
+            var roleClaims = await _roleManager.GetClaimsAsync(role!);
+            claims.AddRange(roleClaims);
+        } 
         
-        claims.AddRange(roleClaims);
+        claims.AddRange(userRoles);
         
         var userClaims = await _userManager.GetClaimsAsync(user);
 

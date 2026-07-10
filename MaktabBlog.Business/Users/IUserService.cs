@@ -9,4 +9,5 @@ public interface IUserService
 {
     Task UpdateUserInfoAsync(UpdateUserInfoCommand command);
     Task<List<UserArg>> GetUsersAsync(GetUsersQuery query);
+    Task GetVipSubscriptionAsync(Guid userId);
 }

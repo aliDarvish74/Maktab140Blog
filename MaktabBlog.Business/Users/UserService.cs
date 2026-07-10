@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using MaktabBlog.Business.Abstraction.Exceptions;
+using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Business.Notifiers;
 using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Business.Users.Contracts.Queries;
@@ -39,7 +40,7 @@ public class UserService : IUserService
         
         var requesterRoles = await _userManager.GetRolesAsync(requester);
 
-        if (command.Id != requester.Id && !requesterRoles.Contains("Admin"))
+        if (command.Id != requester.Id && !requesterRoles.Contains(RoleConstants.AdminRoleName))
             throw new PermissionDeniedException();
         
         var user = requester.Id == command.Id 
@@ -78,5 +79,15 @@ public class UserService : IUserService
         };
 
         return await _userRepository.QueryUsersAsync(predicate, query.Paging, projection);
+    }
+
+    public async Task GetVipSubscriptionAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        
+        if(user == null)
+            throw new UserNotFoundException(nameof(User));
+
+        await _userManager.AddClaimAsync(user, ClaimConstants.VipUser);
     }
 }

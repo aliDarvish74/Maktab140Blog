@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using MaktabBlog.Business.Authentications;
+using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Business.Users;
 using MaktabBlog.Business.Users.Contracts.Queries;
 using MaktabBlog.Business.Users.Contracts.Results.Args;
@@ -16,7 +17,6 @@ namespace MaktabBlog.WebAPI.Controllers.Users;
 
 [ApiController]
 [Route("api/users")]
-[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -34,6 +34,7 @@ public class UserController : ControllerBase
     /// <param name="submissionDate">When user created.</param>
     /// <returns>The users</returns>
     [HttpGet()]
+    [Authorize(Roles = "Admin,God")]
     [ProducesResponseType(typeof(List<UserArg>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(BaseResponseDto<string>),StatusCodes.Status404NotFound)]
     public async Task<ActionResult<QueryUsersResponseDto>> GetUsersAsync(
@@ -58,6 +59,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{userId:guid}")]
+    [Authorize(Roles = "Admin,God")]
     public async Task<ActionResult<User>> GetUserByIdAsync([FromRoute] Guid userId)
     {
         return Ok();
@@ -82,6 +84,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
 
     [HttpPut("{userId:guid}")]
+    [Authorize]
     public async Task<IActionResult> UpdateUserAsync(
         [FromRoute] Guid userId,
         [FromBody] UpdateUserRequestDto requestDto)
@@ -96,9 +99,29 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{userId:guid}")]
+    [Authorize]
     public async Task<IActionResult> UpdateNationalIdAsync([FromRoute] Guid userId,
         [FromBody] UpdateNationalIdRequestDto requestDto)
     {
         return Ok();
+    }
+
+    [HttpPatch("vip-subscription")]
+    [Authorize(Roles = "User")]
+    public async Task<IActionResult> GetVipSubscriptionAsync()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return Unauthorized();
+        
+        await _userService.GetVipSubscriptionAsync(Guid.Parse(userId));
+        return NoContent();
+    }
+
+    [Authorize(Policy = "VipOnly")]
+    [HttpGet("check-vip-account")]
+    public IActionResult CheckVipAccount()
+    {
+        return Ok("Congratulations you are a vip user.");
     }
 }

@@ -8,12 +8,12 @@ public sealed class Role : IdentityRole<Guid>, IAuditableEntity
     {
         
     }
-    public Role(string roleName, Guid requesterId) : base(roleName)
+    public Role(string roleName, Guid? requesterId = null) : base(roleName)
     {
         CreatedById = requesterId;
     }
 
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public Guid? CreatedById { get; private set;}
     public User? Creator { get; private set;}
     public DateTime? ModifiedAt { get; private set;}
