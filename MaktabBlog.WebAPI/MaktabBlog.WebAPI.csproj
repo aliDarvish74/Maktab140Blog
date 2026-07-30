@@ -21,7 +21,13 @@
       <ProjectReference Include="..\MaktabBlog.Business\MaktabBlog.Business.csproj" />
       <ProjectReference Include="..\MaktabBlog.Domain\MaktabBlog.Domain.csproj" />
       <ProjectReference Include="..\MaktabBlog.ExternalServices\MaktabBlog.ExternalServices.csproj" />
+      <ProjectReference Include="..\MaktabBlog.Framework.Presentation.Utilities\MaktabBlog.Framework.Presentation.Utilities.csproj" />
       <ProjectReference Include="..\MaktabBlog.Persistence\MaktabBlog.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Configurations\" />
+      <Folder Include="Extensions\" />
     </ItemGroup>
 
 </Project>

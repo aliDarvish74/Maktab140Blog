@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Presentation", "MaktabBlog.Presentation\MaktabBlog.Presentation.csproj", "{ADD41C23-359A-492D-914F-9ED400CD77CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.ConsolePresentation", "MaktabBlog.ConsolePresentation\MaktabBlog.ConsolePresentation.csproj", "{ADD41C23-359A-492D-914F-9ED400CD77CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E693EEF9-E255-4D33-A816-924E2FCA2863}"
 EndProject
@@ -19,6 +19,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Business", "MaktabBlog.Business\MaktabBlog.Business.csproj", "{5FBDAB2D-6A88-4C6B-9C15-3A910A10FFC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.ExternalServices", "MaktabBlog.ExternalServices\MaktabBlog.ExternalServices.csproj", "{BFF7F00C-D4FA-431A-AD86-C701BA66F344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Presentation.MvcProject", "MaktabBlog.Presentation.MvcProject\MaktabBlog.Presentation.MvcProject.csproj", "{12C49489-6808-4F9A-9A57-BB701BAB192C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{38521641-4393-4E50-BDC1-64D8BBF0CC3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaktabBlog.Framework.Presentation.Utilities", "MaktabBlog.Framework.Presentation.Utilities\MaktabBlog.Framework.Presentation.Utilities.csproj", "{EE121AD4-20A9-4A57-99C2-54FD973E4664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +56,14 @@ Global
 		{BFF7F00C-D4FA-431A-AD86-C701BA66F344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFF7F00C-D4FA-431A-AD86-C701BA66F344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFF7F00C-D4FA-431A-AD86-C701BA66F344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C49489-6808-4F9A-9A57-BB701BAB192C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C49489-6808-4F9A-9A57-BB701BAB192C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C49489-6808-4F9A-9A57-BB701BAB192C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C49489-6808-4F9A-9A57-BB701BAB192C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE121AD4-20A9-4A57-99C2-54FD973E4664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE121AD4-20A9-4A57-99C2-54FD973E4664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE121AD4-20A9-4A57-99C2-54FD973E4664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE121AD4-20A9-4A57-99C2-54FD973E4664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADD41C23-359A-492D-914F-9ED400CD77CB} = {E693EEF9-E255-4D33-A816-924E2FCA2863}
@@ -58,5 +72,7 @@ Global
 		{CCF32306-39FF-4701-BEA3-2344C5998FA1} = {E693EEF9-E255-4D33-A816-924E2FCA2863}
 		{5FBDAB2D-6A88-4C6B-9C15-3A910A10FFC1} = {D51A02CF-8477-46A9-A591-C055A3CB4E57}
 		{BFF7F00C-D4FA-431A-AD86-C701BA66F344} = {8F479D1C-2EE9-4E6C-A7C6-BD89B7657D9E}
+		{12C49489-6808-4F9A-9A57-BB701BAB192C} = {E693EEF9-E255-4D33-A816-924E2FCA2863}
+		{EE121AD4-20A9-4A57-99C2-54FD973E4664} = {38521641-4393-4E50-BDC1-64D8BBF0CC3B}
 	EndGlobalSection
 EndGlobal

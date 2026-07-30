@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MaktabBlog.Business\MaktabBlog.Business.csproj" />
+      <ProjectReference Include="..\MaktabBlog.Framework.Presentation.Utilities\MaktabBlog.Framework.Presentation.Utilities.csproj" />
+      <ProjectReference Include="..\MaktabBlog.Persistence\MaktabBlog.Persistence.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,11 +1,14 @@
-using MaktabBlog.Business.Authentications.Constants;
+﻿using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Domain.Users;
 using MaktabBlog.WebAPI.Configurations;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace MaktabBlog.WebAPI.Extensions;
+namespace MaktabBlog.Framework.Presentation.Utilities;
 
-public static class ApplicationExtensions
+public static class ApplicationBuilderExtensions
 {
     public static async Task SeedDataBaseAsync(this IApplicationBuilder app)
     {

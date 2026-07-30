@@ -62,4 +62,9 @@ public sealed class User : IdentityUser<Guid>, IAuditableEntity
         ModifiedAt = DateTime.UtcNow;
         ModifiedById = requesterId;
     }
+
+    public string EvaluateFullName()
+    {
+        return FirstName + " " + LastName;
+    }
 }

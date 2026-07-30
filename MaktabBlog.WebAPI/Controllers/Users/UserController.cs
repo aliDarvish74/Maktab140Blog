@@ -34,7 +34,7 @@ public class UserController : ControllerBase
     /// <param name="submissionDate">When user created.</param>
     /// <returns>The users</returns>
     [HttpGet()]
-    [Authorize(Roles = "Admin,God")]
+    // [Authorize(Roles = "Admin,God")]
     [ProducesResponseType(typeof(List<UserArg>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(BaseResponseDto<string>),StatusCodes.Status404NotFound)]
     public async Task<ActionResult<QueryUsersResponseDto>> GetUsersAsync(
