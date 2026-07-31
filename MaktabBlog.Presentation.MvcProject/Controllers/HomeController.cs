@@ -6,6 +6,7 @@ using MaktabBlog.Domain;
 using Microsoft.AspNetCore.Mvc;
 using MaktabBlog.Presentation.MvcProject.Models;
 using MaktabBlog.Presentation.MvcProject.Models.Posts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MaktabBlog.Presentation.MvcProject.Controllers;
 

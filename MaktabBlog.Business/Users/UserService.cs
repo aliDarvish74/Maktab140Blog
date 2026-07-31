@@ -1,15 +1,16 @@
 using System.Linq.Expressions;
+using System.Text.Json;
 using MaktabBlog.Business.Abstraction.Exceptions;
 using MaktabBlog.Business.Authentications.Constants;
 using MaktabBlog.Business.Notifiers;
 using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Business.Users.Contracts.Queries;
-using MaktabBlog.Business.Users.Contracts.Results;
 using MaktabBlog.Business.Users.Contracts.Results.Args;
 using MaktabBlog.Business.Users.Exceptions;
 using MaktabBlog.Domain.Users;
 using MaktabBlog.ExternalServices.Inquiries;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace MaktabBlog.Business.Users;
 
@@ -19,24 +20,33 @@ public class UserService : IUserService
     private readonly UserManager<User> _userManager;
     private readonly IInquiryService _inquiryService;
     private readonly INotifierFactory _notifierFactory;
+    private readonly ILogger<UserService> _logger;
 
     public UserService(
         IUserRepository userRepository,
         UserManager<User> userManager,
         IInquiryService inquiryService,
-        INotifierFactory notifierFactory)
+        INotifierFactory notifierFactory,
+        ILogger<UserService> logger)
     {
         _userRepository = userRepository;
         _userManager = userManager;
         _inquiryService = inquiryService;
         _notifierFactory = notifierFactory;
+        _logger = logger;
     }
     public async Task UpdateUserInfoAsync(UpdateUserInfoCommand command)
     {
-        var requester = await _userManager.FindByIdAsync(command.RequesterId.ToString());
+        _logger.LogInformation("User is going to be updated. {Command}", JsonSerializer.Serialize(command));
         
+        var requester = await _userManager.FindByIdAsync(command.RequesterId.ToString());
+
         if (requester == null)
+        {
+            _logger.LogError("User not found. {RequestedId}, {UserId}",
+                command.RequesterId, command.Id);
             throw new PermissionDeniedException();
+        }
         
         var requesterRoles = await _userManager.GetRolesAsync(requester);
 
@@ -89,5 +99,14 @@ public class UserService : IUserService
             throw new UserNotFoundException(nameof(User));
 
         await _userManager.AddClaimAsync(user, ClaimConstants.VipUser);
+    }
+
+    public async Task<UserArg> GetByIdAsync(string id)
+    {
+        var user = await _userRepository.GetByIdAsync(new Guid(id));
+        if(user is null)
+            throw new ItemNotFoundException(nameof(user), typeof(User));
+
+        return UserArg.FromUser(user);
     }
 }

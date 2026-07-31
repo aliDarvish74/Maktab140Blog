@@ -1,12 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using MaktabBlog.Business.Authentications.Contracts.Commands;
-using MaktabBlog.Business.Users.Contracts.Commands;
 using MaktabBlog.Framework.Presentation.Utilities;
-using MaktabBlog.WebAPI.Filters;
 
-namespace MaktabBlog.WebAPI.Models.Users.RequestDtos;
+namespace MaktabBlog.Presentation.MvcProject.Models.Authentications;
 
-public class AddUserRequestDto
+public class RegisterUserVm
 {
     /// <summary>
     /// Registering user's first name

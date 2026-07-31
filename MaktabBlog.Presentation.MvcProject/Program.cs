@@ -4,11 +4,13 @@ using MaktabBlog.ExternalServices;
 using MaktabBlog.Framework.Presentation.Utilities;
 using MaktabBlog.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddExternalServices(builder.Configuration);
 builder.Services.AddInfrastructureLayer(builder.Configuration);
 builder.Services.AddBusinessLayer(builder.Configuration);
@@ -20,12 +22,24 @@ builder.Services.AddIdentity<User, Role>(options =>
         options.Password.RequireUppercase = true;
         options.Password.RequireLowercase = true;
         options.Password.RequireDigit = true;
-        
+
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
     })
     .AddEntityFrameworkStores<MaktabBlogDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Authentication/Login";
+    options.LogoutPath = "/Authentication/Logout";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+});
 
 var app = builder.Build();
 await app.SeedDataBaseAsync();
@@ -37,17 +51,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseRouting();
-
-app.UseAuthorization();
-
 app.MapStaticAssets();
 app.UseStaticFiles();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
+app.MapRazorPages()
     .WithStaticAssets();
 
 app.Run();

@@ -12,4 +12,6 @@ public interface IUserRepository
 
     Task<List<TResult>> GetUsersAsViewModelAsync<TResult>(Expression<Func<User, TResult>> projection)
         where TResult : BaseEntityViewModel;
+
+    Task<User?> GetByIdAsync(Guid id);
 }

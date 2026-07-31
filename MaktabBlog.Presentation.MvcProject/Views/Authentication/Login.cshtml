@@ -1,0 +1,171 @@
+@model MaktabBlog.Presentation.MvcProject.Models.Authentications.LoginVm
+
+@{
+  Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign in</title>
+  <meta
+    name="description"
+    content="Dark-theme login form with glowing neon accents, parallax orbs and crisp focus states."
+  />
+  <meta name="author" content="Aigars Silkalns / Colorlib"/>
+  <link
+    rel="canonical"
+    href="https://preview.colorlib.com/theme/login-forms/forms/neon/"
+  />
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Neon Minimalist Login Form"/>
+  <meta
+    property="og:description"
+    content="Dark-theme login form with glowing neon accents, parallax orbs and crisp focus states."
+  />
+  <meta
+    property="og:url"
+    content="https://preview.colorlib.com/theme/login-forms/forms/neon/"
+  />
+  <meta
+    property="og:image"
+    content="https://preview.colorlib.com/theme/login-forms/assets/screenshots/neon.png"
+  />
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Neon Minimalist Login Form"/>
+  <meta
+    name="twitter:description"
+    content="Dark-theme login form with glowing neon accents, parallax orbs and crisp focus states."
+  />
+  <meta
+    name="twitter:image"
+    content="https://preview.colorlib.com/theme/login-forms/assets/screenshots/neon.png"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  />
+
+  <link rel="stylesheet" href="/css/login-style.css"/>
+</head>
+<body>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-icon">⚡</div>
+      <h2>Sign In</h2>
+      <p>Access your account</p>
+    </div>
+
+    <form class="login-form" id="loginForm" asp-controller="Authentication" asp-action="Login">
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input
+            asp-for="@Model.NationalId"
+            required
+            autocomplete="national-id"
+          />
+          <label asp-for="@Model.NationalId">National Id</label>
+          <span class="input-line"></span>
+        </div>
+        <span class="error-message" id="emailError"></span>
+      </div>
+
+      <div class="form-group">
+        <div class="input-wrapper password-wrapper">
+          <input
+            asp-for="@Model.Password"
+            type="password"
+            required
+            autocomplete="current-password"
+          />
+          <label asp-for="@Model.Password">Password</label>
+          <button
+            type="button"
+            class="password-toggle"
+            id="passwordToggle"
+            aria-label="Toggle password visibility"
+          >
+            <span class="toggle-icon"></span>
+          </button>
+          <span class="input-line"></span>
+        </div>
+        <span class="error-message" id="passwordError"></span>
+      </div>
+
+      <button id="sign-in" type="submit" class="login-btn btn">
+        <span class="btn-text">Sign In</span>
+        <span class="btn-loader"></span>
+        <span class="btn-glow"></span>
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>or</span>
+    </div>
+
+    <div class="signup-link">
+      <p>
+        New here? <a asp-controller="Authentication" asp-action="Register">Create an account</a>
+      </p>
+    </div>
+
+    <div class="success-message" id="successMessage">
+      <div class="success-icon">✓</div>
+      <h3>Welcome back!</h3>
+      <p>Redirecting to your dashboard...</p>
+    </div>
+  </div>
+
+  <div class="background-effects">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+  </div>
+</div>
+<div
+  id="error-toast"
+  class="position-absolute bottom-0 end-0 toast align-items-center text-bg-danger border-0"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="d-flex">
+    <div id="error-toast-body" class="toast-body"></div>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+  crossorigin="anonymous"
+></script>
+
+@*<script>
+  const viewDataValue = `@TempData["HasError"]`;
+  console.log(viewDataValue);
+  if (viewDataValue?.toString() === true.toString()) {
+    console.log(@TempData["Error"])
+  }
+</script>*@
+<script src="/js/login-script.js"></script>
+<script>
+  const hasError = @(TempData["HasError"]?.ToString().ToLower() ?? "false");
+
+  if (hasError) {
+    const message = `@(TempData["Error"]?.ToString())`;
+    showToast(message);
+  }
+</script>
+</body>
+</html>
+

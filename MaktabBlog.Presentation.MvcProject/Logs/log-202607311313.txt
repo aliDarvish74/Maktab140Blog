@@ -1,0 +1,18 @@
+2026-07-31 13:13:25.027 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":33}
+2026-07-31 13:13:25.090 +03:30 [INF] HTTP POST /UserProfile responded 200 in 71.8886 ms
+2026-07-31 13:13:25.105 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 3.0819 ms
+2026-07-31 13:13:30.014 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":34}
+2026-07-31 13:13:30.040 +03:30 [INF] HTTP POST /UserProfile responded 200 in 27.7394 ms
+2026-07-31 13:13:30.054 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 6.9507 ms
+2026-07-31 13:13:32.496 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":31}
+2026-07-31 13:13:32.518 +03:30 [INF] HTTP POST /UserProfile responded 200 in 24.6653 ms
+2026-07-31 13:13:32.529 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 2.3649 ms
+2026-07-31 13:13:35.126 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":30}
+2026-07-31 13:13:35.153 +03:30 [INF] HTTP POST /UserProfile responded 200 in 28.7016 ms
+2026-07-31 13:13:35.170 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 5.1272 ms
+2026-07-31 13:13:39.303 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":29}
+2026-07-31 13:13:39.327 +03:30 [INF] HTTP POST /UserProfile responded 200 in 25.8278 ms
+2026-07-31 13:13:39.342 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 3.4867 ms
+2026-07-31 13:13:41.911 +03:30 [INF] User is going to be updated. {"Id":"019f4b21-df5e-7000-8049-f2c503bac234","RequesterId":"019f4b21-df5e-7000-8049-f2c503bac234","FirstName":"Peyman","LastName":"Darvish","Age":31}
+2026-07-31 13:13:41.937 +03:30 [INF] HTTP POST /UserProfile responded 200 in 28.0619 ms
+2026-07-31 13:13:41.951 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 5.5769 ms

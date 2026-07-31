@@ -9,4 +9,5 @@ public interface IAuthenticationService
 {
     Task<GeneralResult> RegisterAsync(RegisterUserCommand command);
     Task<TokenLoginResult> TokenLoginAsync(LoginCommand command);
+    Task PasswordLoginAsync(LoginCommand command);
 }

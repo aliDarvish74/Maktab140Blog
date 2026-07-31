@@ -81,6 +81,31 @@ public class AuthenticationService : IAuthenticationService
         return await GenerateTokenAsync(user);
     }
 
+    public async Task PasswordLoginAsync(LoginCommand command)
+    {
+        var user = await _userManager.FindByNameAsync(command.Username);
+        
+        if(user is null)
+            throw new AuthenticationException("Username or password is incorrect.");
+        
+        var result = await _signInManager
+            .PasswordSignInAsync(command.Username, command.Password, false, true);
+
+        if(result.IsLockedOut)
+            throw new AuthenticationException("User is locked out. Please try again 15 minutes later.");
+        
+        if(result.IsNotAllowed)
+            throw new PermissionDeniedException();
+
+        if (result.RequiresTwoFactor)
+        {
+            //Todo: at this point you should ass user to enter his/her two factor password.
+        }
+
+        if (!result.Succeeded)
+            throw new AuthenticationException("Invalid username or password.");
+    }
+
     private async Task<TokenLoginResult> GenerateTokenAsync(User user)
     {
         var claims = new List<Claim>()

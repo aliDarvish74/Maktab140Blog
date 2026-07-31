@@ -1,0 +1,24 @@
+2026-07-31 13:10:03.790 +03:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'Like'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-31 13:10:09.842 +03:30 [WRN] Failed to determine the https port for redirect.
+2026-07-31 13:10:11.012 +03:30 [INF] HTTP GET / responded 200 in 1166.4947 ms
+2026-07-31 13:10:11.074 +03:30 [INF] HTTP GET /css/site.css responded 200 in 68.8032 ms
+2026-07-31 13:10:11.076 +03:30 [INF] HTTP GET /MaktabBlog.Presentation.MvcProject.styles.css responded 200 in 72.3923 ms
+2026-07-31 13:10:11.084 +03:30 [INF] HTTP GET /lib/jquery/dist/jquery.min.js responded 200 in 60.3734 ms
+2026-07-31 13:10:11.084 +03:30 [INF] HTTP GET /lib/bootstrap/dist/js/bootstrap.bundle.min.js responded 200 in 60.4310 ms
+2026-07-31 13:10:11.131 +03:30 [INF] HTTP GET /lib/bootstrap/dist/css/bootstrap.min.css responded 200 in 127.4667 ms
+2026-07-31 13:10:11.146 +03:30 [INF] HTTP GET /js/site.js responded 200 in 13.6798 ms
+2026-07-31 13:10:11.281 +03:30 [INF] HTTP GET /favicon.ico responded 200 in 6.5631 ms
+2026-07-31 13:10:21.263 +03:30 [INF] HTTP GET /UserProfile responded 302 in 27.6565 ms
+2026-07-31 13:10:21.371 +03:30 [INF] HTTP GET /Authentication/Login responded 200 in 95.6589 ms
+2026-07-31 13:10:21.397 +03:30 [INF] HTTP GET /js/login-script.js responded 200 in 8.4428 ms
+2026-07-31 13:10:21.398 +03:30 [INF] HTTP GET /css/login-style.css responded 200 in 14.7418 ms
+2026-07-31 13:10:26.570 +03:30 [INF] HTTP POST /Authentication/Login responded 302 in 389.4726 ms
+2026-07-31 13:10:26.598 +03:30 [INF] HTTP GET / responded 200 in 16.8572 ms
+2026-07-31 13:10:26.614 +03:30 [INF] HTTP GET /MaktabBlog.Presentation.MvcProject.styles.css responded 200 in 3.4200 ms
+2026-07-31 13:10:26.614 +03:30 [INF] HTTP GET /css/site.css responded 200 in 4.5058 ms
+2026-07-31 13:10:26.675 +03:30 [INF] HTTP GET /js/site.js responded 200 in 61.4475 ms
+2026-07-31 13:10:26.677 +03:30 [INF] HTTP GET /lib/jquery/dist/jquery.min.js responded 200 in 64.9506 ms
+2026-07-31 13:10:26.677 +03:30 [INF] HTTP GET /lib/bootstrap/dist/css/bootstrap.min.css responded 200 in 67.4641 ms
+2026-07-31 13:10:26.680 +03:30 [INF] HTTP GET /lib/bootstrap/dist/js/bootstrap.bundle.min.js responded 200 in 68.2741 ms
+2026-07-31 13:10:45.464 +03:30 [INF] HTTP GET /UserProfile responded 200 in 99.0902 ms
+2026-07-31 13:10:45.476 +03:30 [INF] HTTP GET /css/user-profile-style.css responded 200 in 3.7628 ms
